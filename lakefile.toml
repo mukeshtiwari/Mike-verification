@@ -1,0 +1,6 @@
+name = "MikeVerification"
+version = "0.1.0"
+defaultTargets = ["MikeVerification"]
+
+[[lean_lib]]
+name = "MikeVerification"
