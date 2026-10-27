@@ -2,7 +2,7 @@ import Mathlib
 open QuadraticAlgebra
 
 /-!
-# MIKE parameters and the rings `R = ℤ[ω]`, `S = ℤ[j]`
+# MIKE parameters
 
 Formalises the *Notations* paragraph of the MIKE paper (p. 8, before §2).
 * `f ≥ 3` is taken from Corollary 3.1 (p. 13).
@@ -14,8 +14,8 @@ Formalises the *Notations* paragraph of the MIKE paper (p. 8, before §2).
 by natural-number subtraction), so that `ZMod p`, `GaloisField p 2`, `CharP _ p` etc. apply
 directly and no truncation lemmas are needed.
 
-Not yet encoded: maximality of `R` in `ℚ(√-p)` (but see `discr_R`), the quaternion order `O₀`
-and the curve `E₀'`.
+The rings `R = ℤ[ω]`, `S = ℤ[j]` are in `MikeVerification.Math.ZOmega`, the quaternion
+order `O₀` in `MikeVerification.Math.Quaternion`. Not yet encoded: the curve `E₀'`.
 -/
 
 /-- MIKE parameters: a prime `p = c * 2^f - 1` with `c` odd, `f ≥ 3`,
@@ -66,23 +66,5 @@ theorem seven_le_p : 7 ≤ P.p := by
       _ ≤ 2 ^ (P.f - 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
   have : 2 ≤ P.n := by unfold n; nlinarith
   omega
-
-/-- `R = ℤ[ω]` with `ω = (1 + j)/2`, `j² = -p`, so `ω² = ω - (p+1)/4`. -/
-abbrev R := QuadraticAlgebra ℤ (-(P.n : ℤ)) 1
-
-/-- `S = ℤ[j]` with `j² = -p`. Here `ω` plays the role of `j`. -/
-abbrev S := QuadraticAlgebra ℤ (-(P.p : ℤ)) 0
-
-/-- `j = 2ω - 1` squares to `-p`. -/
-theorem j_sq : ((2 : P.R) * ω - 1) ^ 2 = -((P.p : ℤ) : P.R) := by
-  rw [p_eq]; ext <;> simp [sq]; ring
-
-/-- `disc R = 1 - 4n = -p`, the fundamental discriminant of `ℚ(√-p)` for `p ≡ 3 mod 4`. -/
-theorem discr_R : discr (-(P.n : ℤ)) 1 = -(P.p : ℤ) := by
-  rw [p_eq, discr_def]; ring
-
-/-- `disc S = -4p`, so `S` has index 2 in `R`. -/
-theorem discr_S : discr (-(P.p : ℤ)) 0 = -4 * (P.p : ℤ) := by
-  rw [discr_def]; ring
 
 end Params
